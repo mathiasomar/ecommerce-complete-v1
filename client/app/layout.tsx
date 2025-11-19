@@ -1,0 +1,51 @@
+import type { Metadata } from "next";
+import { Inter, Playfair_Display } from "next/font/google";
+import "./globals.css";
+import { Toaster } from "sonner";
+import Navbar from "@/components/navbar";
+import { ClerkProvider } from "@clerk/nextjs";
+import { Suspense } from "react";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-playfair",
+  display: "swap",
+});
+
+export const metadata: Metadata = {
+  title: "NajTrends Fashion Store",
+  description: "Your one-stop shop for the latest fashion trends.",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <Suspense fallback={null}>
+      <ClerkProvider>
+        <html
+          lang="en"
+          style={{ overflowX: "hidden" }}
+          suppressHydrationWarning
+        >
+          <head></head>
+          <body
+            className={`${inter.variable} ${playfair.variable} font-sans antialiased`}
+          >
+            <Navbar />
+            {children}
+            <Toaster position="top-center" />
+          </body>
+        </html>
+      </ClerkProvider>
+    </Suspense>
+  );
+}
